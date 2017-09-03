@@ -19,6 +19,8 @@ use regex::Regex;
 use list_vm::ListingVM;
 use vbox_version::Version;
 
+static VERSION: &'static str = "1.0.0";
+
 #[get("/")]
 fn index() -> String {
     let output =    Command::new("VBoxManage")
@@ -63,7 +65,7 @@ fn version() -> String {
     let output_string = String::from_utf8(output.stdout).unwrap().replace("\n","");
     let version_object = Version {
         vbox: output_string,
-        proxy: String::from("1.0.0")
+        proxy: String::from(VERSION)
     };
     
     serde_json::to_string(&version_object).unwrap()
