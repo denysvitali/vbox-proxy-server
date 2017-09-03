@@ -61,12 +61,12 @@ fn version() -> String {
                     .output()
                     .expect("Unable to execute process");
     let output_string = String::from_utf8(output.stdout).unwrap().replace("\n","");
-    let versionObject = Version {
+    let version_object = Version {
         vbox: output_string,
         proxy: String::from("1.0.0")
     };
     
-    serde_json::to_string(&versionObject).unwrap()
+    serde_json::to_string(&version_object).unwrap()
 }
 
 fn main() {
