@@ -1,7 +1,5 @@
-extern crate serde_derive;
-
-#[derive(Serialize, Deserialize)]
-struct ListingVM{
-    name : String,
-    id: String
+#[derive(Serialize, Deserialize, Debug)]
+pub struct ListingVM{
+    pub name : String,
+    pub id: String
 }
