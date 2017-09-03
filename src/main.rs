@@ -11,12 +11,13 @@ extern crate serde_json;
 extern crate serde_derive;
 
 mod list_vm;
+mod vbox_version;
 
 use std::process::Command;
 use regex::Regex;
 
 use list_vm::ListingVM;
-
+use vbox_version::Version;
 
 #[get("/")]
 fn index() -> String {
@@ -53,6 +54,21 @@ fn index() -> String {
     serde_json::to_string(&listing).unwrap()
 }
 
+#[get("/version")]
+fn version() -> String {
+    let output =    Command::new("VBoxManage")
+                    .args(&["--version"])
+                    .output()
+                    .expect("Unable to execute process");
+    let output_string = String::from_utf8(output.stdout).unwrap().replace("\n","");
+    let versionObject = Version {
+        vbox: output_string,
+        proxy: String::from("1.0.0")
+    };
+    
+    serde_json::to_string(&versionObject).unwrap()
+}
+
 fn main() {
-    rocket::ignite().mount("/", routes![index]).launch();
+    rocket::ignite().mount("/", routes![index,version]).launch();
 }
